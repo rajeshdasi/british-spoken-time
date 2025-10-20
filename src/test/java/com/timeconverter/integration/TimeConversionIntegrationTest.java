@@ -6,18 +6,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TimeConversionIntegrationTest {
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private WebTestClient webTestClient;
 
     @ParameterizedTest
     @CsvSource({
@@ -38,34 +34,48 @@ class TimeConversionIntegrationTest {
             "12:00, noon"
     })
     void convertTime_shouldReturnCorrectBritishSpokenTime(String time, String expectedSpoken) {
-        String url = "/api/time/convert?time=" + time;
-        
-        ResponseEntity<TimeResponse> response = restTemplate.getForEntity(url, TimeResponse.class);
-        
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(expectedSpoken, response.getBody().getSpokenTime());
-        assertEquals("en_GB", response.getBody().getLocale());
+        webTestClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/api/time/convert")
+                        .queryParam("time", time)
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(TimeResponse.class)
+                .value(response -> {
+                    assert response.getSpokenTime().equals(expectedSpoken);
+                    assert response.getLocale().equals("en_GB");
+                });
     }
 
     @Test
     void convertTime_shouldReturnBadRequestForInvalidTime() {
-        String url = "/api/time/convert?time=invalid";
-        
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        webTestClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/api/time/convert")
+                        .queryParam("time", "invalid")
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isBadRequest();
     }
 
     @Test
     void convertTime_shouldHandleLocaleParameter() {
-        String url = "/api/time/convert?time=12:00&locale=en_GB";
-        
-        ResponseEntity<TimeResponse> response = restTemplate.getForEntity(url, TimeResponse.class);
-        
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals("noon", response.getBody().getSpokenTime());
-        assertEquals("en_GB", response.getBody().getLocale());
+        webTestClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/api/time/convert")
+                        .queryParam("time", "12:00")
+                        .queryParam("locale", "en_GB")
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(TimeResponse.class)
+                .value(response -> {
+                    assert response.getSpokenTime().equals("noon");
+                    assert response.getLocale().equals("en_GB");
+                });
     }
 }

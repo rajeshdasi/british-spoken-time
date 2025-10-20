@@ -19,13 +19,14 @@ public class TimeConverterFactory {
     }
 
     public TimeConverter getConverter(String locale) {
-        String localeKey = locale != null ? locale : defaultLocale;
+        String localeKey = (locale != null && !locale.isBlank()) ? locale : defaultLocale;
         TimeConverter converter = converters.get(localeKey);
-        
+
         if (converter == null) {
-            throw new IllegalArgumentException("Unsupported locale: " + localeKey);
+            throw new IllegalArgumentException("Unsupported locale: " + localeKey
+                    + ". Supported locales: " + converters.keySet());
         }
-        
+
         return converter;
     }
 

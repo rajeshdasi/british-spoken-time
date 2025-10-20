@@ -1,8 +1,9 @@
 package com.timeconverter.service;
 
 import com.timeconverter.model.TimeResponse;
+import reactor.core.publisher.Mono;
 
 public interface TimeConversionService {
 
-    TimeResponse convertTime(String time, String locale);
+    Mono<TimeResponse> convertTime(String time, String locale);
 }

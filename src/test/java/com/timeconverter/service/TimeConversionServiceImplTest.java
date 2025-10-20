@@ -1,6 +1,5 @@
 package com.timeconverter.service;
 
-import com.timeconverter.exception.InvalidTimeFormatException;
 import com.timeconverter.factory.TimeConverterFactory;
 import com.timeconverter.formatter.TimeConverter;
 import com.timeconverter.formatter.british.BetweenZeroAndThirtyHandler;
@@ -10,18 +9,14 @@ import com.timeconverter.formatter.british.NumberToWordConverter;
 import com.timeconverter.formatter.british.OClockHandler;
 import com.timeconverter.formatter.british.PastMinuteHandler;
 import com.timeconverter.formatter.british.ToMinuteHandler;
-import com.timeconverter.model.TimeResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import reactor.test.StepVerifier;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TimeConversionServiceImplTest {
 
@@ -50,25 +45,27 @@ class TimeConversionServiceImplTest {
             "6:32, en_GB, six thirty two"
     })
     void convertTime_shouldReturnCorrectSpokenTime(String time, String locale, String expectedSpoken) {
-        TimeResponse response = service.convertTime(time, locale);
-        
-        assertNotNull(response);
-        assertEquals(expectedSpoken, response.getSpokenTime());
-        assertEquals(locale, response.getLocale());
+        StepVerifier.create(service.convertTime(time, locale))
+                .expectNextMatches(response ->
+                        response.getSpokenTime().equals(expectedSpoken) &&
+                        response.getLocale().equals(locale))
+                .verifyComplete();
     }
 
     @Test
     void convertTime_shouldUseDefaultLocaleWhenNotProvided() {
-        TimeResponse response = service.convertTime("12:00", null);
-        
-        assertNotNull(response);
-        assertEquals("noon", response.getSpokenTime());
-        assertEquals("en_GB", response.getLocale());
+        StepVerifier.create(service.convertTime("12:00", null))
+                .expectNextMatches(response ->
+                        response.getSpokenTime().equals("noon") &&
+                        response.getLocale().equals("en_GB"))
+                .verifyComplete();
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"invalid", "25:00", "12:60", ""})
     void convertTime_shouldThrowExceptionForInvalidTime(String time) {
-        assertThrows(InvalidTimeFormatException.class, () -> service.convertTime(time, "en_GB"));
+        StepVerifier.create(service.convertTime(time, "en_GB"))
+                .expectError(IllegalArgumentException.class)
+                .verify();
     }
 }
