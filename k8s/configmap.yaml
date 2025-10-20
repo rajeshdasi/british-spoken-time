@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: british-spoken-time-config
+  labels:
+    app: british-spoken-time
+data:
+  # Application properties
+  time.converter.default.locale: "en_GB"
+
+  # Spring Boot configuration
+  SPRING_APPLICATION_NAME: "british-spoken-time"
+  SERVER_PORT: "8080"
+
+  # Logging configuration
+  LOGGING_LEVEL_ROOT: "INFO"
+  LOGGING_LEVEL_COM_TIMECONVERTER: "DEBUG"
+
+  # Actuator endpoints
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,metrics,prometheus"
+  MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: "always"
