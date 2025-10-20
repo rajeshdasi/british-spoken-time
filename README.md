@@ -7,7 +7,7 @@
 [![CI/CD Pipeline](https://github.com/rajeshdasi/british-spoken-time/actions/workflows/ci.yml/badge.svg)](https://github.com/rajeshdasi/british-spoken-time/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/rajeshdasi/british-spoken-time/branch/main/graph/badge.svg)](https://codecov.io/gh/rajeshdasi/british-spoken-time)
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.1-brightgreen.svg)](https://spring.io/projects/spring-boot)
 
 [Features](#features) • [Quick Start](#quick-start) • [API Documentation](#api-documentation) • [Deployment](#deployment) • [Contributing](#contributing)
 
@@ -137,7 +137,7 @@ This project implements several industry-standard design patterns:
 | Category            | Technology                |
 |---------------------|---------------------------|
 | **Language**        | Java 21 (LTS)             |
-| **Framework**       | Spring Boot 3.2.0         |
+| **Framework**       | Spring Boot 3.4.1         |
 | **Reactive**        | Spring WebFlux            |
 | **Build Tool**      | Maven 3.8+                |
 | **Testing**         | JUnit 5, Spring Boot Test |
