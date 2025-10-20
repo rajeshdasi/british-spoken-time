@@ -22,16 +22,16 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        run: mvn clean install -DskipTests
+        run: mvn clean install -s .mvn/settings.xml -DskipTests
 
       - name: Run Checkstyle
-        run: mvn checkstyle:check
+        run: mvn checkstyle:check -s .mvn/settings.xml
 
       - name: Run tests
-        run: mvn test
+        run: mvn test -s .mvn/settings.xml
 
       - name: Generate Jacoco coverage report
-        run: mvn jacoco:report
+        run: mvn jacoco:report -s .mvn/settings.xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
@@ -42,14 +42,14 @@ jobs:
 
       - name: Archive test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: target/surefire-reports/
 
       - name: Archive coverage report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: target/site/jacoco/
