@@ -53,3 +53,8 @@ jobs:
         with:
           name: coverage-report
           path: target/site/jacoco/
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
