@@ -2,14 +2,31 @@ package com.timeconverter.formatter.british;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 /**
  * Utility component for converting numbers to British English words.
  * Demonstrates Single Responsibility Principle - one class for number conversion.
+ * Uses ResourceBundle for internationalization support.
  * Used by all minute handlers to ensure consistency.
  */
 @Component
 public class NumberToWordConverter {
 
+    private final ResourceBundle numberWords;
+
+    public NumberToWordConverter() {
+        this.numberWords = ResourceBundle.getBundle("numbers", Locale.forLanguageTag("en"));
+    }
+
+    /**
+     * Converts hour (0-23) to word representation.
+     * Converts to 12-hour format (1-12).
+     *
+     * @param hour the hour value (0-23)
+     * @return the word representation of the hour
+     */
     public String convertHourToWord(int hour) {
         int displayHour = hour % 12;
         if (displayHour == 0) {
@@ -18,71 +35,33 @@ public class NumberToWordConverter {
         return convertNumberToWord(displayHour);
     }
 
+    /**
+     * Converts a number (1-59) to its word representation.
+     *
+     * @param number the number to convert (1-59)
+     * @return the word representation of the number
+     * @throws IllegalArgumentException if number is not in valid range
+     */
     public String convertNumberToWord(int number) {
-        return switch (number) {
-            case 1 -> "one";
-            case 2 -> "two";
-            case 3 -> "three";
-            case 4 -> "four";
-            case 5 -> "five";
-            case 6 -> "six";
-            case 7 -> "seven";
-            case 8 -> "eight";
-            case 9 -> "nine";
-            case 10 -> "ten";
-            case 11 -> "eleven";
-            case 12 -> "twelve";
-            case 13 -> "thirteen";
-            case 14 -> "fourteen";
-            case 15 -> "fifteen";
-            case 16 -> "sixteen";
-            case 17 -> "seventeen";
-            case 18 -> "eighteen";
-            case 19 -> "nineteen";
-            case 20 -> "twenty";
-            case 21 -> "twenty one";
-            case 22 -> "twenty two";
-            case 23 -> "twenty three";
-            case 24 -> "twenty four";
-            case 25 -> "twenty five";
-            case 26 -> "twenty six";
-            case 27 -> "twenty seven";
-            case 28 -> "twenty eight";
-            case 29 -> "twenty nine";
-            case 30 -> "thirty";
-            case 31 -> "thirty one";
-            case 32 -> "thirty two";
-            case 33 -> "thirty three";
-            case 34 -> "thirty four";
-            case 35 -> "thirty five";
-            case 36 -> "thirty six";
-            case 37 -> "thirty seven";
-            case 38 -> "thirty eight";
-            case 39 -> "thirty nine";
-            case 40 -> "forty";
-            case 41 -> "forty one";
-            case 42 -> "forty two";
-            case 43 -> "forty three";
-            case 44 -> "forty four";
-            case 45 -> "forty five";
-            case 46 -> "forty six";
-            case 47 -> "forty seven";
-            case 48 -> "forty eight";
-            case 49 -> "forty nine";
-            case 50 -> "fifty";
-            case 51 -> "fifty one";
-            case 52 -> "fifty two";
-            case 53 -> "fifty three";
-            case 54 -> "fifty four";
-            case 55 -> "fifty five";
-            case 56 -> "fifty six";
-            case 57 -> "fifty seven";
-            case 58 -> "fifty eight";
-            case 59 -> "fifty nine";
-            default -> throw new IllegalArgumentException("Invalid number: " + number);
-        };
+        if (number < 1 || number > 59) {
+            throw new IllegalArgumentException("Invalid number: " + number);
+        }
+
+        String key = "number." + number;
+        if (!numberWords.containsKey(key)) {
+            throw new IllegalArgumentException("No translation found for number: " + number);
+        }
+
+        return numberWords.getString(key);
     }
 
+    /**
+     * Converts minute to word representation.
+     * Adds "o" prefix for single digit minutes (1-9).
+     *
+     * @param minute the minute value (1-59)
+     * @return the word representation of the minute
+     */
     public String convertMinuteToWord(int minute) {
         if (minute < 10) {
             return "o " + convertNumberToWord(minute);
