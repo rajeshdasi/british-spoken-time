@@ -1,6 +1,6 @@
 package com.timeconverter.formatter;
 
-import com.timeconverter.model.TimeInput;
+import com.timeconverter.dto.TimeInput;
 
 public interface TimeConverter {
 

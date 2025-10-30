@@ -1,6 +1,6 @@
 package com.timeconverter.formatter.british;
 
-import com.timeconverter.model.TimeInput;
+import com.timeconverter.dto.TimeInput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

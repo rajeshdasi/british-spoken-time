@@ -1,6 +1,6 @@
 package com.timeconverter.service;
 
-import com.timeconverter.model.TimeResponse;
+import com.timeconverter.dto.TimeResponse;
 import reactor.core.publisher.Mono;
 
 public interface TimeConversionService {

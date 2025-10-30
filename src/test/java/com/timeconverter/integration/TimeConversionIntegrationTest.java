@@ -1,6 +1,6 @@
 package com.timeconverter.integration;
 
-import com.timeconverter.model.TimeResponse;
+import com.timeconverter.dto.TimeResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

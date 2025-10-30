@@ -1,4 +1,4 @@
-package com.timeconverter.model;
+package com.timeconverter.dto;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

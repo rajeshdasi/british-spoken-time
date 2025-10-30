@@ -2,7 +2,7 @@ package com.timeconverter.formatter.german;
 
 import com.timeconverter.formatter.MinuteHandler;
 import com.timeconverter.formatter.TimeConverter;
-import com.timeconverter.model.TimeInput;
+import com.timeconverter.dto.TimeInput;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 

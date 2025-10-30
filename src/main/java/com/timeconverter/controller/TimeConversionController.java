@@ -1,6 +1,6 @@
 package com.timeconverter.controller;
 
-import com.timeconverter.model.TimeResponse;
+import com.timeconverter.dto.TimeResponse;
 import com.timeconverter.service.TimeConversionService;
 import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;

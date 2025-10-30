@@ -1,4 +1,4 @@
-package com.timeconverter.model;
+package com.timeconverter.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

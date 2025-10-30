@@ -1,7 +1,7 @@
 package com.timeconverter.formatter.british;
 
 import com.timeconverter.formatter.MinuteHandler;
-import com.timeconverter.model.TimeInput;
+import com.timeconverter.dto.TimeInput;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 

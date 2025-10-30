@@ -1,6 +1,6 @@
 package com.timeconverter.formatter.german;
 
-import com.timeconverter.model.TimeInput;
+import com.timeconverter.dto.TimeInput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

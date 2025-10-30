@@ -2,8 +2,8 @@ package com.timeconverter.service;
 
 import com.timeconverter.factory.TimeConverterFactory;
 import com.timeconverter.formatter.TimeConverter;
-import com.timeconverter.model.TimeInput;
-import com.timeconverter.model.TimeResponse;
+import com.timeconverter.dto.TimeInput;
+import com.timeconverter.dto.TimeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
