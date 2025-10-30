@@ -1,7 +1,6 @@
 package com.timeconverter.service;
 
-import com.timeconverter.factory.TimeConverterFactory;
-import com.timeconverter.formatter.TimeConverter;
+import com.timeconverter.factory.TimeConverter;
 import com.timeconverter.formatter.british.BetweenZeroAndThirtyHandler;
 import com.timeconverter.formatter.british.BritishTimeConverter;
 import com.timeconverter.formatter.british.DefaultMinuteHandler;
@@ -25,14 +24,14 @@ class TimeConversionServiceImplTest {
     @BeforeEach
     void setUp() {
         NumberToWordConverter numberConverter = new NumberToWordConverter();
-        TimeConverter britishConverter = new BritishTimeConverter(List.of(
+        com.timeconverter.formatter.TimeConverter britishConverter = new BritishTimeConverter(List.of(
                 new OClockHandler(numberConverter),
                 new PastMinuteHandler(numberConverter),
                 new ToMinuteHandler(numberConverter),
                 new BetweenZeroAndThirtyHandler(numberConverter),
                 new DefaultMinuteHandler(numberConverter)
         ));
-        TimeConverterFactory factory = new TimeConverterFactory(List.of(britishConverter), "en_GB");
+        TimeConverter factory = new TimeConverter(List.of(britishConverter), "en_GB");
         service = new TimeConversionServiceImpl(factory);
     }
 

@@ -1,7 +1,6 @@
 package com.timeconverter.config;
 
-import com.timeconverter.factory.TimeConverterFactory;
-import com.timeconverter.formatter.TimeConverter;
+import com.timeconverter.factory.TimeConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,14 +24,14 @@ public class TimeConverterConfig {
     private String defaultLocale;
 
     /**
-     * Creates TimeConverterFactory with auto-injected converters.
+     * Creates TimeConverter with auto-injected converters.
      * Spring automatically discovers all TimeConverter beans and injects them.
      * 
      * @param converters All TimeConverter implementations discovered by Spring
      * @return Configured factory instance
      */
     @Bean
-    public TimeConverterFactory timeConverterFactory(List<TimeConverter> converters) {
-        return new TimeConverterFactory(converters, defaultLocale);
+    public TimeConverter timeConverterFactory(List<com.timeconverter.formatter.TimeConverter> converters) {
+        return new TimeConverter(converters, defaultLocale);
     }
 }

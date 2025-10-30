@@ -1,26 +1,24 @@
 package com.timeconverter.factory;
 
-import com.timeconverter.formatter.TimeConverter;
-
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class TimeConverterFactory {
+public class TimeConverter {
 
-    private final Map<String, TimeConverter> converters;
+    private final Map<String, com.timeconverter.formatter.TimeConverter> converters;
     private final String defaultLocale;
 
-    public TimeConverterFactory(List<TimeConverter> converters, String defaultLocale) {
+    public TimeConverter(List<com.timeconverter.formatter.TimeConverter> converters, String defaultLocale) {
         this.converters = converters.stream()
-                .collect(Collectors.toMap(TimeConverter::getSupportedLocale, Function.identity()));
+                .collect(Collectors.toMap(com.timeconverter.formatter.TimeConverter::getSupportedLocale, Function.identity()));
         this.defaultLocale = defaultLocale;
     }
 
-    public TimeConverter getConverter(String locale) {
+    public com.timeconverter.formatter.TimeConverter getConverter(String locale) {
         String localeKey = (locale != null && !locale.isBlank()) ? locale : defaultLocale;
-        TimeConverter converter = converters.get(localeKey);
+        com.timeconverter.formatter.TimeConverter converter = converters.get(localeKey);
 
         if (converter == null) {
             throw new IllegalArgumentException("Unsupported locale: " + localeKey
@@ -30,7 +28,7 @@ public class TimeConverterFactory {
         return converter;
     }
 
-    public TimeConverter getDefaultConverter() {
+    public com.timeconverter.formatter.TimeConverter getDefaultConverter() {
         return getConverter(defaultLocale);
     }
 }

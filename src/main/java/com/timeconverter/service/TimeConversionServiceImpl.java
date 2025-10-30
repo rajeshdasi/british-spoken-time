@@ -1,7 +1,6 @@
 package com.timeconverter.service;
 
-import com.timeconverter.factory.TimeConverterFactory;
-import com.timeconverter.formatter.TimeConverter;
+import com.timeconverter.factory.TimeConverter;
 import com.timeconverter.dto.TimeInput;
 import com.timeconverter.dto.TimeResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +11,9 @@ import reactor.core.publisher.Mono;
 @Service
 public class TimeConversionServiceImpl implements TimeConversionService {
 
-    private final TimeConverterFactory converterFactory;
+    private final TimeConverter converterFactory;
 
-    public TimeConversionServiceImpl(TimeConverterFactory converterFactory) {
+    public TimeConversionServiceImpl(TimeConverter converterFactory) {
         this.converterFactory = converterFactory;
     }
 
@@ -24,7 +23,7 @@ public class TimeConversionServiceImpl implements TimeConversionService {
             log.info("Converting time: {} for locale: {}", time, locale);
 
             TimeInput timeInput = TimeInput.parse(time);
-            TimeConverter converter = converterFactory.getConverter(locale);
+            com.timeconverter.formatter.TimeConverter converter = converterFactory.getConverter(locale);
             String spokenTime = converter.convert(timeInput);
 
             log.info("Converted time: {} -> {}", time, spokenTime);
